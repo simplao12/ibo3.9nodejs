@@ -1,4 +1,4 @@
-import { DatabaseSync } from 'node:sqlite';
+import Database, { type Database as DatabaseType } from 'better-sqlite3';
 import { db } from '../config/database';
 
 // Broad external type for convenience; cast to SqlValue internally
@@ -12,9 +12,9 @@ function asParams(p: Params): SqlParams {
 }
 
 export class DatabaseService {
-  private db: DatabaseSync;
+  private db: DatabaseType;
 
-  constructor(database: DatabaseSync) {
+  constructor(database: DatabaseType) {
     this.db = database;
   }
 
