@@ -1,4 +1,4 @@
-import { db } from '../config/database';
+import { getDb } from '../config/database';
 
 /**
  * Creates all tables if they don't exist.
@@ -127,6 +127,7 @@ export function runMigrations(): void {
     )`,
   ];
 
+  const db = getDb();
   db.exec('BEGIN');
   try {
     for (const sql of migrations) {

@@ -3,7 +3,7 @@ import fs from 'fs';
 import path from 'path';
 import { env } from './env';
 
-let db: Database;
+let dbInstance: Database | undefined;
 
 const dbPath = path.isAbsolute(env.DATABASE_PATH)
   ? env.DATABASE_PATH
@@ -15,23 +15,23 @@ export async function initDatabase(): Promise<Database> {
   try {
     // Try to load existing database
     const fileBuffer = fs.readFileSync(dbPath);
-    db = new SQL.Database(fileBuffer);
+    dbInstance = new SQL.Database(fileBuffer);
   } catch {
     // Create new database if file doesn't exist
-    db = new SQL.Database();
+    dbInstance = new SQL.Database();
   }
 
   // Performance pragmas
-  db.run('PRAGMA journal_mode = WAL');
-  db.run('PRAGMA synchronous = NORMAL');
-  db.run('PRAGMA foreign_keys = ON');
+  dbInstance.run('PRAGMA journal_mode = WAL');
+  dbInstance.run('PRAGMA synchronous = NORMAL');
+  dbInstance.run('PRAGMA foreign_keys = ON');
 
-  return db;
+  return dbInstance;
 }
 
 function saveDatabase() {
-  if (db) {
-    const data = db.export();
+  if (dbInstance) {
+    const data = dbInstance.export();
     fs.writeFileSync(dbPath, Buffer.from(data));
   }
 }
@@ -43,30 +43,14 @@ process.on('SIGINT', () => {
   process.exit(0);
 });
 
-// Wrapper to provide familiar interface
-class DatabaseWrapper {
-  private db: Database;
-
-  constructor(database: Database) {
-    this.db = database;
+// Getter functions
+export function getDb(): Database {
+  if (!dbInstance) {
+    throw new Error('Database not initialized. Call initDatabase() first.');
   }
-
-  prepare(sql: string) {
-    return this.db.prepare(sql);
-  }
-
-  run(sql: string, params?: any[]): void {
-    this.db.run(sql, params);
-  }
-
-  exec(sql: string): any {
-    return this.db.exec(sql);
-  }
-
-  export(): Uint8Array {
-    return this.db.export();
-  }
+  return dbInstance;
 }
 
-export { db };
-export { Database };
+export function isDbReady(): boolean {
+  return dbInstance !== undefined;
+}
