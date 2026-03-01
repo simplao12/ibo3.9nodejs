@@ -1,9 +1,6 @@
-import { Database } from 'sql.js';
 type Params = Record<string, unknown>;
 type Row = Record<string, unknown>;
 export declare class DatabaseService {
-    private db;
-    constructor(database: Database);
     select<T = Row>(tableName: string, columns?: string, where?: string, orderBy?: string, placeholders?: Params): T[];
     selectWithCount(tableName: string, countColumn: string, where?: string, placeholders?: Params): {
         total: number;

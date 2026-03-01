@@ -128,15 +128,16 @@ function runMigrations() {
       expire_date TEXT
     )`,
     ];
-    database_1.db.exec('BEGIN');
+    const db = (0, database_1.getDb)();
+    db.exec('BEGIN');
     try {
         for (const sql of migrations) {
-            database_1.db.exec(sql);
+            db.exec(sql);
         }
-        database_1.db.exec('COMMIT');
+        db.exec('COMMIT');
     }
     catch (err) {
-        database_1.db.exec('ROLLBACK');
+        db.exec('ROLLBACK');
         throw err;
     }
     console.log('Database migrations complete.');

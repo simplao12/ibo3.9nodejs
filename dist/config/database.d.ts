@@ -1,6 +1,5 @@
 import { Database } from 'sql.js';
-declare let db: Database;
 export declare function initDatabase(): Promise<Database>;
-export { db };
-export { Database };
+export declare function getDb(): Database;
+export declare function isDbReady(): boolean;
 //# sourceMappingURL=database.d.ts.map

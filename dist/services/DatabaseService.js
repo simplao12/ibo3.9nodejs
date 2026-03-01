@@ -13,16 +13,14 @@ function parseValue(val) {
     return String(val);
 }
 class DatabaseService {
-    constructor(database) {
-        this.db = database;
-    }
     select(tableName, columns = '*', where = '', orderBy = '', placeholders = {}) {
+        const db = (0, database_1.getDb)();
         let query = `SELECT ${columns} FROM ${tableName}`;
         if (where)
             query += ` WHERE ${where}`;
         if (orderBy)
             query += ` ORDER BY ${orderBy}`;
-        const stmt = this.db.prepare(query);
+        const stmt = db.prepare(query);
         const params = Object.values(placeholders).map(parseValue);
         stmt.bind(params.length > 0 ? params : undefined);
         const results = [];
@@ -33,10 +31,11 @@ class DatabaseService {
         return results;
     }
     selectWithCount(tableName, countColumn, where = '', placeholders = {}) {
+        const db = (0, database_1.getDb)();
         let query = `SELECT COUNT(${countColumn}) AS total FROM ${tableName}`;
         if (where)
             query += ` WHERE ${where}`;
-        const stmt = this.db.prepare(query);
+        const stmt = db.prepare(query);
         const params = Object.values(placeholders).map(parseValue);
         stmt.bind(params.length > 0 ? params : undefined);
         const results = [];
@@ -47,11 +46,12 @@ class DatabaseService {
         return results;
     }
     selectPaged(tableName, columns = '*', where = '', placeholders = {}, limit = 30, offset = 0) {
+        const db = (0, database_1.getDb)();
         let query = `SELECT ${columns} FROM ${tableName}`;
         if (where)
             query += ` WHERE ${where}`;
         query += ` ORDER BY id ASC LIMIT ? OFFSET ?`;
-        const stmt = this.db.prepare(query);
+        const stmt = db.prepare(query);
         const params = [...Object.values(placeholders).map(parseValue), limit, offset];
         stmt.bind(params);
         const results = [];
@@ -62,50 +62,53 @@ class DatabaseService {
         return results;
     }
     insert(tableName, data) {
+        const db = (0, database_1.getDb)();
         const keys = Object.keys(data);
         const cols = keys.join(', ');
         const placeholders = keys.map(() => '?').join(', ');
         const values = keys.map((k) => parseValue(data[k]));
         const sql = `INSERT INTO ${tableName} (${cols}) VALUES (${placeholders})`;
-        const stmt = this.db.prepare(sql);
+        const stmt = db.prepare(sql);
         stmt.bind(values);
         stmt.step();
         stmt.free();
         // Get last insert rowid
-        const result = this.db.exec('SELECT last_insert_rowid() as id');
+        const result = db.exec('SELECT last_insert_rowid() as id');
         return result[0]?.values[0]?.[0] ?? 0;
     }
     update(tableName, data, where = '', placeholders = {}) {
+        const db = (0, database_1.getDb)();
         const keys = Object.keys(data);
         const setClause = keys.map((k) => `${k} = ?`).join(', ');
         let query = `UPDATE ${tableName} SET ${setClause}`;
         if (where)
             query += ` WHERE ${where}`;
         const values = [...keys.map((k) => parseValue(data[k])), ...Object.values(placeholders).map(parseValue)];
-        const stmt = this.db.prepare(query);
+        const stmt = db.prepare(query);
         stmt.bind(values);
         stmt.step();
         stmt.free();
         // Get changes count
-        const result = this.db.exec('SELECT changes() as count');
+        const result = db.exec('SELECT changes() as count');
         return result[0]?.values[0]?.[0] ?? 0;
     }
     delete(tableName, where = '', placeholders = {}) {
+        const db = (0, database_1.getDb)();
         let query = `DELETE FROM ${tableName}`;
         if (where)
             query += ` WHERE ${where}`;
-        const stmt = this.db.prepare(query);
+        const stmt = db.prepare(query);
         const params = Object.values(placeholders).map(parseValue);
         stmt.bind(params.length > 0 ? params : undefined);
         stmt.step();
         stmt.free();
         // Get changes count
-        const result = this.db.exec('SELECT changes() as count');
+        const result = db.exec('SELECT changes() as count');
         return result[0]?.values[0]?.[0] ?? 0;
     }
     insertIfEmpty(tableName, data) {
-        const row = this.selectWithCount(tableName, '*')[0];
-        if (row && row.total === 0) {
+        const rows = this.selectWithCount(tableName, '*');
+        if (rows.length === 0 || rows[0].total === 0) {
             this.insert(tableName, data);
             return true;
         }
@@ -121,8 +124,9 @@ class DatabaseService {
         return Object.keys(counts).filter((k) => counts[k] > 1);
     }
     getOne(tableName, where, placeholders = {}) {
+        const db = (0, database_1.getDb)();
         const query = `SELECT * FROM ${tableName} WHERE ${where} LIMIT 1`;
-        const stmt = this.db.prepare(query);
+        const stmt = db.prepare(query);
         const params = Object.values(placeholders).map(parseValue);
         stmt.bind(params.length > 0 ? params : undefined);
         let result;
@@ -133,7 +137,8 @@ class DatabaseService {
         return result;
     }
     raw(sql, params = {}) {
-        const stmt = this.db.prepare(sql);
+        const db = (0, database_1.getDb)();
+        const stmt = db.prepare(sql);
         const values = Object.values(params).map(parseValue);
         stmt.bind(values.length > 0 ? values : undefined);
         const results = [];
@@ -145,5 +150,5 @@ class DatabaseService {
     }
 }
 exports.DatabaseService = DatabaseService;
-exports.dbService = new DatabaseService(database_1.db);
+exports.dbService = new DatabaseService();
 //# sourceMappingURL=DatabaseService.js.map
