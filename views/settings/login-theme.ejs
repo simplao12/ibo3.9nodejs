@@ -1,0 +1,20 @@
+<%- include('../partials/page-top') %>
+<div class="row justify-content-center"><div class="col-md-6">
+<div class="card bg-dark border-secondary"><div class="card-header border-secondary">
+  <h5 class="mb-0 text-white"><i class="fa-solid fa-brush me-2 text-info"></i>Tema da Página de Login</h5>
+</div><div class="card-body">
+<form method="post" action="/settings/login-theme">
+  <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+  <div class="mb-3"><label class="form-label text-secondary">Tema de Login</label>
+    <select name="themelog" class="form-select bg-dark-2 text-white border-secondary">
+      <option value="theme_0" <%= row.themelog === 'theme_0' ? 'selected' : '' %>>Padrão (theme_0)</option>
+      <% for (let i = 1; i <= 17; i++) { %>
+        <option value="theme_<%= i %>" <%= row.themelog === 'theme_' + i ? 'selected' : '' %>>Tema <%= i %></option>
+      <% } %>
+    </select>
+  </div>
+  <div class="d-flex justify-content-end"><button class="btn btn-info" type="submit" data-submit-btn><i class="fa-solid fa-floppy-disk me-1"></i>Salvar</button></div>
+</form>
+</div></div>
+</div></div>
+<%- include('../partials/page-bottom') %>

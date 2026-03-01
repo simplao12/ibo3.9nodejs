@@ -1,0 +1,53 @@
+<%- include('../partials/page-top') %>
+
+<div class="card bg-dark border-secondary">
+  <div class="card-header d-flex justify-content-between align-items-center border-secondary">
+    <h5 class="mb-0 text-white"><i class="fa-solid fa-gears me-2 text-info"></i>Config. de DNS</h5>
+    <a href="/dns/create" class="btn btn-info btn-sm">
+      <i class="fa-solid fa-plus me-1"></i>Novo DNS/Usuário
+    </a>
+  </div>
+  <div class="card-body p-0">
+    <% if (rows.length === 0) { %>
+      <div class="text-center text-secondary py-5">
+        <i class="fa-solid fa-server fa-2x mb-3 d-block"></i>
+        Nenhum DNS cadastrado. <a href="/dns/create" class="text-info">Adicione um</a>.
+      </div>
+    <% } else { %>
+    <div class="table-responsive">
+      <table class="table table-dark table-hover table-sm mb-0">
+        <thead class="table-header">
+          <tr>
+            <th>#</th>
+            <th>Título</th>
+            <th>DNS / URL</th>
+            <th class="text-end">Ações</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% rows.forEach(function(row) { %>
+          <tr>
+            <td class="text-secondary"><%= row.id %></td>
+            <td class="text-white fw-semibold"><%= row.title %></td>
+            <td><code class="text-info small"><%= row.url %></code></td>
+            <td class="text-end">
+              <a href="/dns/<%= row.id %>/edit" class="btn btn-outline-info btn-sm me-1" title="Editar">
+                <i class="fa-solid fa-pen"></i>
+              </a>
+              <button class="btn btn-outline-danger btn-sm btn-delete"
+                data-delete-url="/dns/<%= row.id %>/delete"
+                data-bs-toggle="modal" data-bs-target="#confirmDeleteModal" title="Excluir">
+                <i class="fa-solid fa-trash"></i>
+              </button>
+            </td>
+          </tr>
+          <% }); %>
+        </tbody>
+      </table>
+    </div>
+    <% } %>
+  </div>
+</div>
+
+<%- include('../partials/confirm-modal') %>
+<%- include('../partials/page-bottom') %>

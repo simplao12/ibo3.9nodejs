@@ -1,0 +1,14 @@
+<nav class="navbar navbar-expand-lg ctnav">
+  <button class="btn btn-sm btn-outline-secondary me-2" id="menu-toggle" title="Toggle Sidebar">
+    <i class="fa-solid fa-bars"></i>
+  </button>
+  <span class="navbar-brand text-white fw-semibold d-none d-md-inline"><%= title %></span>
+  <div class="ms-auto d-flex align-items-center gap-2">
+    <span class="text-secondary small d-none d-md-inline">
+      <i class="fa-solid fa-user me-1"></i><%= loggedInUser %>
+    </span>
+    <a href="/login/logout" class="btn btn-sm btn-outline-danger">
+      <i class="fa-solid fa-right-from-bracket me-1"></i>Sair
+    </a>
+  </div>
+</nav>

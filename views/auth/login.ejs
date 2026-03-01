@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Entrar — <%= panelName %></title>
+  <link rel="icon" href="/img/favicon.ico">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="/css/signin.css" rel="stylesheet">
+</head>
+<body class="auth-body">
+  <div class="login-container">
+    <div class="login-card">
+      <div class="login-logo">
+        <img src="/img/login_logo.png" alt="<%= panelName %>" onerror="this.style.display='none'">
+      </div>
+      <h2 class="login-title">Entrar</h2>
+
+      <% if (typeof timeout !== 'undefined' && timeout) { %>
+        <div class="alert alert-warning py-2 text-center small mb-3">Sessão expirada. Por favor, faça login novamente.</div>
+      <% } %>
+
+      <% if (typeof error !== 'undefined' && error) { %>
+        <div class="alert alert-danger py-2 text-center small mb-3"><%= error %></div>
+      <% } %>
+
+      <form method="post" action="/login">
+        <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+        <div class="mb-3">
+          <label class="form-label text-secondary">Usuário</label>
+          <input type="text" name="username" class="form-control login-input" placeholder="Usuário" required autofocus autocomplete="username">
+        </div>
+        <div class="mb-3">
+          <label class="form-label text-secondary">Senha</label>
+          <input type="password" name="password" class="form-control login-input" placeholder="••••••••" required autocomplete="current-password">
+        </div>
+        <button type="submit" class="btn btn-primary w-100 login-btn mt-2" id="loginBtn">
+          ENTRAR
+        </button>
+      </form>
+      <p class="login-footer">
+        <a href="<%= contactUrl %>" target="_blank">RTX Rebrand</a>
+      </p>
+    </div>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    document.querySelector('form').addEventListener('submit', function() {
+      var btn = document.getElementById('loginBtn');
+      btn.disabled = true;
+      btn.innerHTML = '<span class="spinner-border spinner-border-sm me-1"></span> Entrando...';
+    });
+  </script>
+</body>
+</html>

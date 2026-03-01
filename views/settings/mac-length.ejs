@@ -1,0 +1,14 @@
+<%- include('../partials/page-top') %>
+<div class="row justify-content-center"><div class="col-md-6 col-lg-4">
+<div class="card bg-dark border-secondary"><div class="card-header border-secondary">
+  <h5 class="mb-0 text-white"><i class="fa-solid fa-arrow-down-1-9 me-2 text-info"></i>Comprimento do MAC</h5>
+</div><div class="card-body">
+<form method="post" action="/settings/mac-length">
+  <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+  <div class="mb-3"><label class="form-label text-secondary">Comprimento do Endereço MAC (caracteres)</label>
+    <input type="number" name="mac_length" class="form-control bg-dark-2 text-white border-secondary" value="<%= row.mac_length %>" min="1" max="50"></div>
+  <div class="d-flex justify-content-end"><button class="btn btn-info" type="submit" data-submit-btn><i class="fa-solid fa-floppy-disk me-1"></i>Salvar</button></div>
+</form>
+</div></div>
+</div></div>
+<%- include('../partials/page-bottom') %>

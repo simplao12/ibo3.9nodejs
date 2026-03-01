@@ -1,0 +1,18 @@
+<div id="toast-container" class="position-fixed top-0 start-50 translate-middle-x p-3" style="z-index:9999; pointer-events:none;">
+  <% if (flash && flash.length > 0) { %>
+    <% flash.forEach(function(msg) { %>
+      <div class="toast align-items-center text-white bg-<%= msg.type === 'danger' ? 'danger' : msg.type === 'warning' ? 'warning' : msg.type === 'info' ? 'info' : 'success' %> border-0 show" role="alert" style="pointer-events:auto; min-width:280px;">
+        <div class="d-flex">
+          <div class="toast-body">
+            <% if (msg.type === 'success') { %><i class="fa-solid fa-circle-check me-2"></i><% } %>
+            <% if (msg.type === 'danger') { %><i class="fa-solid fa-circle-xmark me-2"></i><% } %>
+            <% if (msg.type === 'warning') { %><i class="fa-solid fa-triangle-exclamation me-2"></i><% } %>
+            <% if (msg.type === 'info') { %><i class="fa-solid fa-circle-info me-2"></i><% } %>
+            <%- msg.message %>
+          </div>
+          <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
+        </div>
+      </div>
+    <% }); %>
+  <% } %>
+</div>

@@ -1,0 +1,81 @@
+<%- include('../partials/page-top') %>
+
+<div class="row justify-content-center">
+  <div class="col-md-10 col-lg-8">
+    <!-- Extrator M3U -->
+    <div class="card bg-dark border-secondary mb-3">
+      <div class="card-header border-secondary">
+        <h6 class="mb-0 text-white"><i class="fa-solid fa-expand me-2 text-success"></i>Extrator de Link M3U</h6>
+      </div>
+      <div class="card-body">
+        <div class="input-group">
+          <input class="form-control bg-dark-2 text-white border-secondary" id="m3u_address" placeholder="Cole o link M3U para sobrescrever os campos..." type="text">
+          <button class="btn btn-success" id="extract_button" onclick="extractM3U(event)">
+            <i class="fa-solid fa-expand me-1"></i>Extrair
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="card bg-dark border-secondary">
+      <div class="card-header border-secondary">
+        <h5 class="mb-0 text-white"><i class="fa-solid fa-pen me-2 text-info"></i>Editar Usuário</h5>
+      </div>
+      <div class="card-body">
+        <form method="post" action="/users/<%= user.id %>/edit" class="needs-validation" novalidate>
+          <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+          <div class="row g-3">
+            <div class="col-md-6">
+              <label class="form-label text-secondary">Endereço MAC <span class="text-danger">*</span></label>
+              <input class="form-control bg-dark-2 text-white border-secondary" id="mac_address" name="mac_address" value="<%= user.mac_address %>" type="text" required>
+            </div>
+            <div class="col-md-6">
+              <label class="form-label text-secondary">Proteger Playlist</label>
+              <select class="form-select bg-dark-2 text-white border-secondary" name="protection">
+                <option value="1" <%= user.protection === '1' ? 'selected' : '' %>>SIM — Protegido</option>
+                <option value="0" <%= user.protection !== '1' ? 'selected' : '' %>>NÃO — Aberto</option>
+              </select>
+            </div>
+            <div class="col-12">
+              <label class="form-label text-secondary">Nome do Servidor / Título <span class="text-danger">*</span></label>
+              <input class="form-control bg-dark-2 text-white border-secondary" id="title" name="title" value="<%= user.title %>" type="text" required>
+            </div>
+            <div class="col-12">
+              <label class="form-label text-secondary">URL do DNS <span class="text-danger">*</span></label>
+              <input class="form-control bg-dark-2 text-white border-secondary" id="url" name="url" value="<%= user.url %>" type="text" required>
+            </div>
+            <div class="col-md-6">
+              <label class="form-label text-secondary">Usuário <span class="text-danger">*</span></label>
+              <input class="form-control bg-dark-2 text-white border-secondary" id="username" name="username" value="<%= user.username %>" type="text" required>
+            </div>
+            <div class="col-md-6">
+              <label class="form-label text-secondary">Senha <span class="text-danger">*</span></label>
+              <input class="form-control bg-dark-2 text-white border-secondary" id="password" name="password" value="<%= user.password %>" type="text" required>
+            </div>
+          </div>
+          <div class="d-flex gap-2 justify-content-end mt-3">
+            <a href="/users" class="btn btn-secondary">Cancelar</a>
+            <button class="btn btn-info" type="submit" data-submit-btn>
+              <i class="fa-solid fa-floppy-disk me-1"></i>Atualizar Usuário
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="/js/mac-formatter.js"></script>
+<script>
+function extractM3U(event) {
+  event.preventDefault();
+  var m3uLink = document.getElementById('m3u_address').value;
+  var serverUrl = m3uLink.split('/get.php')[0];
+  document.getElementById('url').value = serverUrl;
+  var params = new URLSearchParams(m3uLink.split('?')[1] || '');
+  document.getElementById('username').value = params.get('username') || '';
+  document.getElementById('password').value = params.get('password') || '';
+}
+</script>
+
+<%- include('../partials/page-bottom') %>

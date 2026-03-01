@@ -1,0 +1,34 @@
+<%- include('../partials/page-top') %>
+
+<div class="row justify-content-center">
+  <div class="col-md-8 col-lg-6">
+    <div class="card bg-dark border-secondary">
+      <div class="card-header border-secondary">
+        <h5 class="mb-0 text-white"><i class="fa-solid fa-plus me-2 text-info"></i>Adicionar DNS / Usuário</h5>
+      </div>
+      <div class="card-body">
+        <form method="post" action="/dns/create" class="needs-validation" novalidate>
+          <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+          <div class="mb-3">
+            <label class="form-label text-secondary">Título <span class="text-danger">*</span></label>
+            <input type="text" name="title" class="form-control bg-dark-2 text-white border-secondary" placeholder="ex.: Servidor 1" required>
+            <div class="invalid-feedback">Título é obrigatório.</div>
+          </div>
+          <div class="mb-3">
+            <label class="form-label text-secondary">URL do DNS <span class="text-danger">*</span></label>
+            <input type="text" name="url" class="form-control bg-dark-2 text-white border-secondary" placeholder="https://exemplo.com" required>
+            <div class="invalid-feedback">URL do DNS é obrigatória.</div>
+          </div>
+          <div class="d-flex gap-2 justify-content-end">
+            <a href="/dns" class="btn btn-secondary">Cancelar</a>
+            <button class="btn btn-info" type="submit" data-submit-btn>
+              <i class="fa-solid fa-floppy-disk me-1"></i>Salvar
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<%- include('../partials/page-bottom') %>

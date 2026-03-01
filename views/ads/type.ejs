@@ -1,0 +1,20 @@
+<%- include('../partials/page-top') %>
+<div class="row justify-content-center"><div class="col-md-6">
+<div class="card bg-dark border-secondary"><div class="card-header border-secondary">
+  <h5 class="mb-0 text-white"><i class="fa-solid fa-binoculars me-2 text-info"></i>Tipo de Anúncio</h5>
+</div><div class="card-body">
+<form method="post" action="/ads/type">
+  <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+  <div class="mb-3"><label class="form-label text-secondary">Tipo de Anúncio</label>
+    <select name="adstype" class="form-select bg-dark-2 text-white border-secondary">
+      <option value="0" <%= row.adstype === '0' ? 'selected' : '' %>>Nenhum (Desativado)</option>
+      <option value="1" <%= row.adstype === '1' ? 'selected' : '' %>>Anúncios Automáticos</option>
+      <option value="2" <%= row.adstype === '2' ? 'selected' : '' %>>Anúncios em Frame</option>
+      <option value="3" <%= row.adstype === '3' ? 'selected' : '' %>>Anúncios Manuais</option>
+    </select>
+  </div>
+  <div class="d-flex justify-content-end"><button class="btn btn-info" type="submit" data-submit-btn><i class="fa-solid fa-floppy-disk me-1"></i>Salvar</button></div>
+</form>
+</div></div>
+</div></div>
+<%- include('../partials/page-bottom') %>

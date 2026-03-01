@@ -1,0 +1,26 @@
+<%- include('../partials/page-top') %>
+<div class="row justify-content-center"><div class="col-md-8 col-lg-6">
+<div class="card bg-dark border-secondary"><div class="card-header border-secondary">
+  <h5 class="mb-0 text-white"><i class="fa-solid fa-futbol me-2 text-info"></i>Configurações de Esporte</h5>
+</div><div class="card-body">
+<form method="post" action="/sports/settings">
+  <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+  <div class="row g-3">
+    <div class="col-md-6"><label class="form-label text-secondary">Nome do Cabeçalho</label>
+      <input type="text" name="header_n" class="form-control bg-dark-2 text-white border-secondary" value="<%= row.header_n %>"></div>
+    <div class="col-md-6"><label class="form-label text-secondary">Dias</label>
+      <input type="number" name="days" class="form-control bg-dark-2 text-white border-secondary" value="<%= row.days %>"></div>
+    <div class="col-md-4"><label class="form-label text-secondary">Cor da Borda</label>
+      <input type="color" name="border_c" class="form-control form-control-color bg-dark border-secondary w-100" value="<%= row.border_c || '#ffffff' %>"></div>
+    <div class="col-md-4"><label class="form-label text-secondary">Cor de Fundo</label>
+      <input type="color" name="background_c" class="form-control form-control-color bg-dark border-secondary w-100" value="<%= row.background_c || '#000000' %>"></div>
+    <div class="col-md-4"><label class="form-label text-secondary">Cor do Texto</label>
+      <input type="color" name="text_c" class="form-control form-control-color bg-dark border-secondary w-100" value="<%= row.text_c || '#ffffff' %>"></div>
+    <div class="col-12"><label class="form-label text-secondary">Chave de API</label>
+      <input type="text" name="api" class="form-control bg-dark-2 text-white border-secondary" value="<%= row.api %>"></div>
+  </div>
+  <div class="d-flex justify-content-end mt-3"><button class="btn btn-info" type="submit" data-submit-btn><i class="fa-solid fa-floppy-disk me-1"></i>Salvar</button></div>
+</form>
+</div></div>
+</div></div>
+<%- include('../partials/page-bottom') %>

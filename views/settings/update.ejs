@@ -1,0 +1,16 @@
+<%- include('../partials/page-top') %>
+<div class="row justify-content-center"><div class="col-md-8 col-lg-6">
+<div class="card bg-dark border-secondary"><div class="card-header border-secondary">
+  <h5 class="mb-0 text-white"><i class="fa-solid fa-upload me-2 text-info"></i>Atualização Remota</h5>
+</div><div class="card-body">
+<form method="post" action="/settings/update">
+  <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+  <div class="mb-3"><label class="form-label text-secondary">Versão do App</label>
+    <input type="text" name="nversion" class="form-control bg-dark-2 text-white border-secondary" value="<%= row.nversion %>" placeholder="3.9"></div>
+  <div class="mb-3"><label class="form-label text-secondary">URL de Download do APK</label>
+    <input type="text" name="nurl" class="form-control bg-dark-2 text-white border-secondary" value="<%= row.nurl %>" placeholder="https://exemplo.com/app.apk"></div>
+  <div class="d-flex justify-content-end"><button class="btn btn-info" type="submit" data-submit-btn><i class="fa-solid fa-floppy-disk me-1"></i>Salvar</button></div>
+</form>
+</div></div>
+</div></div>
+<%- include('../partials/page-bottom') %>

@@ -1,0 +1,39 @@
+<%- include('../partials/page-top') %>
+<div class="card bg-dark border-secondary">
+  <div class="card-header border-secondary">
+    <h5 class="mb-0 text-white"><i class="fa-solid fa-futbol me-2 text-info"></i>IDs de Liga</h5>
+  </div>
+  <div class="card-body">
+    <form method="post" action="/sports/leagues/create" class="row g-2 mb-4">
+      <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+      <div class="col-md-4"><input type="text" name="league" class="form-control bg-dark-2 text-white border-secondary" placeholder="Nome da Liga" required></div>
+      <div class="col-md-4"><input type="text" name="leagueId" class="form-control bg-dark-2 text-white border-secondary" placeholder="ID da Liga" required></div>
+      <div class="col-auto"><button class="btn btn-info" type="submit" data-submit-btn><i class="fa-solid fa-plus me-1"></i>Adicionar</button></div>
+    </form>
+    <div class="mb-3"><input type="text" id="searchInput" class="form-control bg-dark-2 text-white border-secondary" placeholder="Buscar..." value="<%= searchTerm %>"></div>
+    <% if (rows.length === 0) { %>
+      <div class="text-center text-secondary py-4">Nenhuma liga cadastrada.</div>
+    <% } else { %>
+    <div class="table-responsive"><table class="table table-dark table-hover table-sm">
+      <thead><tr><th>Liga</th><th>ID da Liga</th><th class="text-end">Ações</th></tr></thead>
+      <tbody>
+        <% rows.forEach(function(row) { %>
+        <tr>
+          <td class="text-white"><%= row.league %></td>
+          <td><code class="text-warning"><%= row.leagueId %></code></td>
+          <td class="text-end">
+            <button class="btn btn-outline-danger btn-sm btn-delete" data-delete-url="/sports/leagues/<%= row.id %>/delete" data-bs-toggle="modal" data-bs-target="#confirmDeleteModal"><i class="fa-solid fa-trash"></i></button>
+          </td>
+        </tr>
+        <% }); %>
+      </tbody>
+    </table></div>
+    <%- include('../partials/pagination', { currentPage: page, totalPages: totalPages, searchTerm: searchTerm }) %>
+    <% } %>
+  </div>
+</div>
+<%- include('../partials/confirm-modal') %>
+<script>
+var t; document.getElementById('searchInput').addEventListener('input', function(e) { clearTimeout(t); t = setTimeout(function() { var p = new URLSearchParams(window.location.search); p.set('search', e.target.value); p.delete('view'); window.location.search = p.toString(); }, 400); });
+</script>
+<%- include('../partials/page-bottom') %>

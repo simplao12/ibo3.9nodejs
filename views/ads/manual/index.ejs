@@ -1,0 +1,31 @@
+<%- include('../../partials/page-top') %>
+<div class="card bg-dark border-secondary">
+  <div class="card-header d-flex justify-content-between align-items-center border-secondary">
+    <h5 class="mb-0 text-white"><i class="fa-solid fa-wand-magic-sparkles me-2 text-info"></i>Anúncios Manuais</h5>
+    <a href="/ads/manual/create" class="btn btn-info btn-sm"><i class="fa-solid fa-plus me-1"></i>Novo Anúncio</a>
+  </div>
+  <div class="card-body p-0">
+    <% if (rows.length === 0) { %>
+      <div class="text-center text-secondary py-5"><i class="fa-solid fa-rectangle-ad fa-2x mb-2 d-block"></i>Nenhum anúncio manual.</div>
+    <% } else { %>
+    <div class="table-responsive"><table class="table table-dark table-hover table-sm mb-0">
+      <thead><tr><th>#</th><th>Título</th><th>URL</th><th class="text-end">Ações</th></tr></thead>
+      <tbody>
+        <% rows.forEach(function(row) { %>
+        <tr>
+          <td class="text-secondary"><%= row.id %></td>
+          <td class="text-white"><%= row.title %></td>
+          <td><small class="text-muted"><%= row.url %></small></td>
+          <td class="text-end">
+            <a href="/ads/manual/<%= row.id %>/edit" class="btn btn-outline-info btn-sm me-1"><i class="fa-solid fa-pen"></i></a>
+            <button class="btn btn-outline-danger btn-sm btn-delete" data-delete-url="/ads/manual/<%= row.id %>/delete" data-bs-toggle="modal" data-bs-target="#confirmDeleteModal"><i class="fa-solid fa-trash"></i></button>
+          </td>
+        </tr>
+        <% }); %>
+      </tbody>
+    </table></div>
+    <% } %>
+  </div>
+</div>
+<%- include('../../partials/confirm-modal') %>
+<%- include('../../partials/page-bottom') %>

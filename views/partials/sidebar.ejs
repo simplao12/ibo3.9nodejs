@@ -1,0 +1,121 @@
+<div id="sidebar-wrapper">
+  <div class="sidebar-heading">
+    <div class="sidebar-logo">
+      <img src="/img/login_logo.png" alt="logo" onerror="this.style.display='none'">
+    </div>
+    <a class="sidebar-brand-link" href="<%= contactUrl %>" target="_blank">
+      <span class="sidebar-brand-name"><%= panelName %></span>
+    </a>
+    <button class="sidebar-close-btn d-lg-none" id="sidebar-close" aria-label="Fechar menu">
+      <i class="fa-solid fa-xmark"></i>
+    </button>
+  </div>
+  <div class="list-group list-group-flush sidebar-nav">
+
+    <a class="list-group-item list-group-item-action <%= currentPath === '/dns' || currentPath.startsWith('/dns') ? 'active' : '' %>" href="/dns">
+      <i class="fa-solid fa-gears"></i> Config. de DNS
+    </a>
+
+    <a class="list-group-item list-group-item-action <%= currentPath.startsWith('/users') ? 'active' : '' %>" href="/users">
+      <i class="fa-solid fa-code"></i> Usuários MAC
+    </a>
+
+    <a class="list-group-item list-group-item-action <%= currentPath.startsWith('/codes') ? 'active' : '' %>" href="/codes">
+      <i class="fa-solid fa-key"></i> Código de Ativação
+    </a>
+
+    <a class="list-group-item list-group-item-action <%= currentPath.startsWith('/trial') ? 'active' : '' %>" href="/trial">
+      <i class="fa-solid fa-calendar-days"></i> Definir Expiração
+    </a>
+
+    <a class="list-group-item list-group-item-action <%= currentPath === '/settings/demo' ? 'active' : '' %>" href="/settings/demo">
+      <i class="fa-solid fa-asterisk"></i> Playlist Demo
+    </a>
+
+    <a class="list-group-item list-group-item-action <%= currentPath === '/settings/notification' ? 'active' : '' %>" href="/settings/notification">
+      <i class="fa-solid fa-comment-dots"></i> Notificação
+    </a>
+
+    <a class="list-group-item list-group-item-action <%= currentPath === '/settings/mac-length' ? 'active' : '' %>" href="/settings/mac-length">
+      <i class="fa-solid fa-arrow-down-1-9"></i> Comprimento MAC
+    </a>
+
+    <a class="list-group-item list-group-item-action <%= currentPath.startsWith('/themes') ? 'active' : '' %>" href="/themes">
+      <i class="fa-solid fa-palette"></i> Temas do App
+    </a>
+
+    <!-- Login Page Dropdown -->
+    <div class="sidebar-dropdown">
+      <a class="list-group-item list-group-item-action dropdown-toggle sidebar-dropdown-toggle <%= currentPath.startsWith('/settings/login') ? 'active' : '' %>" href="#loginDropdown" data-bs-toggle="collapse" aria-expanded="<%= currentPath.startsWith('/settings/login') ? 'true' : 'false' %>">
+        <i class="fa-solid fa-right-to-bracket"></i> Página de Login
+      </a>
+      <div class="collapse <%= currentPath.startsWith('/settings/login') ? 'show' : '' %>" id="loginDropdown">
+        <a class="list-group-item list-group-item-action list-group-item-sub <%= currentPath === '/settings/login-theme' ? 'active' : '' %>" href="/settings/login-theme">
+          <i class="fa-solid fa-brush"></i> Tema de Login
+        </a>
+        <a class="list-group-item list-group-item-action list-group-item-sub <%= currentPath === '/settings/login-text' ? 'active' : '' %>" href="/settings/login-text">
+          <i class="fa-solid fa-font"></i> Texto de Login
+        </a>
+      </div>
+    </div>
+
+    <!-- Ads Settings Dropdown -->
+    <div class="sidebar-dropdown">
+      <a class="list-group-item list-group-item-action dropdown-toggle sidebar-dropdown-toggle <%= currentPath.startsWith('/ads') ? 'active' : '' %>" href="#adsDropdown" data-bs-toggle="collapse" aria-expanded="<%= currentPath.startsWith('/ads') ? 'true' : 'false' %>">
+        <i class="fa-solid fa-binoculars"></i> Anúncios
+      </a>
+      <div class="collapse <%= currentPath.startsWith('/ads') ? 'show' : '' %>" id="adsDropdown">
+        <a class="list-group-item list-group-item-action list-group-item-sub <%= currentPath === '/ads/type' ? 'active' : '' %>" href="/ads/type">
+          <i class="fa-solid fa-binoculars"></i> Tipo de Anúncio
+        </a>
+        <a class="list-group-item list-group-item-action list-group-item-sub <%= currentPath === '/ads/auto-layout' ? 'active' : '' %>" href="/ads/auto-layout">
+          <i class="fa-solid fa-bolt"></i> Layout Auto
+        </a>
+        <a class="list-group-item list-group-item-action list-group-item-sub <%= currentPath === '/ads/frame-layout' ? 'active' : '' %>" href="/ads/frame-layout">
+          <i class="fa-solid fa-object-ungroup"></i> Layout Frame
+        </a>
+        <a class="list-group-item list-group-item-action list-group-item-sub <%= currentPath.startsWith('/ads/manual') ? 'active' : '' %>" href="/ads/manual">
+          <i class="fa-solid fa-wand-magic-sparkles"></i> Anúncios Manuais
+        </a>
+      </div>
+    </div>
+
+    <!-- Sport Dropdown -->
+    <div class="sidebar-dropdown">
+      <a class="list-group-item list-group-item-action dropdown-toggle sidebar-dropdown-toggle <%= currentPath.startsWith('/sports') ? 'active' : '' %>" href="#sportDropdown" data-bs-toggle="collapse" aria-expanded="<%= currentPath.startsWith('/sports') ? 'true' : 'false' %>">
+        <i class="fa-solid fa-futbol"></i> Esporte
+      </a>
+      <div class="collapse <%= currentPath.startsWith('/sports') ? 'show' : '' %>" id="sportDropdown">
+        <a class="list-group-item list-group-item-action list-group-item-sub <%= currentPath === '/sports/leagues' ? 'active' : '' %>" href="/sports/leagues">
+          <i class="fa-solid fa-futbol"></i> ID da Liga
+        </a>
+        <a class="list-group-item list-group-item-action list-group-item-sub <%= currentPath === '/sports/leagues-table' ? 'active' : '' %>" href="/sports/leagues-table">
+          <i class="fa-solid fa-table-list"></i> Widget da Liga
+        </a>
+        <a class="list-group-item list-group-item-action list-group-item-sub <%= currentPath === '/sports/settings' ? 'active' : '' %>" href="/sports/settings">
+          <i class="fa-solid fa-gear"></i> Config. Esporte
+        </a>
+      </div>
+    </div>
+
+    <a class="list-group-item list-group-item-action <%= currentPath === '/settings/update' ? 'active' : '' %>" href="/settings/update">
+      <i class="fa-solid fa-upload"></i> Atualização Remota
+    </a>
+
+    <!-- Configuration Dropdown -->
+    <div class="sidebar-dropdown">
+      <a class="list-group-item list-group-item-action dropdown-toggle sidebar-dropdown-toggle <%= currentPath === '/settings/license' || currentPath === '/account' ? 'active' : '' %>" href="#configDropdown" data-bs-toggle="collapse" aria-expanded="<%= currentPath === '/settings/license' || currentPath === '/account' ? 'true' : 'false' %>">
+        <i class="fa-solid fa-cog"></i> Configuração
+      </a>
+      <div class="collapse <%= currentPath === '/settings/license' || currentPath === '/account' ? 'show' : '' %>" id="configDropdown">
+        <a class="list-group-item list-group-item-action list-group-item-sub <%= currentPath === '/settings/license' ? 'active' : '' %>" href="/settings/license">
+          <i class="fa-solid fa-key"></i> Chave de Licença
+        </a>
+        <a class="list-group-item list-group-item-action list-group-item-sub <%= currentPath === '/account' ? 'active' : '' %>" href="/account">
+          <i class="fa-solid fa-user"></i> Atualizar Credenciais
+        </a>
+      </div>
+    </div>
+
+  </div>
+</div>
