@@ -1,0 +1,20 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const express_1 = require("express");
+const AdsController_1 = require("../../controllers/admin/AdsController");
+const router = (0, express_1.Router)();
+const ctrl = new AdsController_1.AdsController();
+router.get('/type', ctrl.showType.bind(ctrl));
+router.post('/type', ctrl.updateType.bind(ctrl));
+router.get('/auto-layout', ctrl.showAutoLayout.bind(ctrl));
+router.post('/auto-layout', ctrl.updateAutoLayout.bind(ctrl));
+router.get('/frame-layout', ctrl.showFrameLayout.bind(ctrl));
+router.post('/frame-layout', ctrl.updateFrameLayout.bind(ctrl));
+router.get('/manual', ctrl.indexManual.bind(ctrl));
+router.get('/manual/create', ctrl.showCreateManual.bind(ctrl));
+router.post('/manual/create', ctrl.createManual.bind(ctrl));
+router.get('/manual/:id/edit', ctrl.showEditManual.bind(ctrl));
+router.post('/manual/:id/edit', ctrl.updateManual.bind(ctrl));
+router.post('/manual/:id/delete', ctrl.deleteManual.bind(ctrl));
+exports.default = router;
+//# sourceMappingURL=ads.router.js.map

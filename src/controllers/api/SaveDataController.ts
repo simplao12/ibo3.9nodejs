@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { db } from '../../config/database';
+import { dbService } from '../../services/DatabaseService';
 
 const PLAYLIST_NAMES = [
   'Ultimate Entertainment 🔐', 'Global TV Hub 🔐', 'Prime Streaming Zone 🔐',
@@ -40,9 +40,14 @@ export class SaveDataController {
     const randomPlaylistName = pickName(pname);
 
     try {
-      db.prepare(
-        'INSERT INTO ibo(mac_address, username, password, protection, url, title) VALUES (?, ?, ?, ?, ?, ?)'
-      ).run(mac_address, username, password, '0', dns, randomPlaylistName);
+      dbService.insert('ibo', {
+        mac_address,
+        username,
+        password,
+        protection: '0',
+        url: dns,
+        title: randomPlaylistName,
+      });
 
       res.json({ status: 'success', listname: randomPlaylistName });
     } catch (err) {

@@ -1,0 +1,22 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const express_1 = require("express");
+const SettingsController_1 = require("../../controllers/admin/SettingsController");
+const router = (0, express_1.Router)();
+const ctrl = new SettingsController_1.SettingsController();
+router.get('/notification', ctrl.showNotification.bind(ctrl));
+router.post('/notification', ctrl.updateNotification.bind(ctrl));
+router.get('/mac-length', ctrl.showMacLength.bind(ctrl));
+router.post('/mac-length', ctrl.updateMacLength.bind(ctrl));
+router.get('/demo', ctrl.showDemo.bind(ctrl));
+router.post('/demo', ctrl.updateDemo.bind(ctrl));
+router.get('/update', ctrl.showUpdate.bind(ctrl));
+router.post('/update', ctrl.updateUpdate.bind(ctrl));
+router.get('/license', ctrl.showLicense.bind(ctrl));
+router.post('/license', ctrl.updateLicense.bind(ctrl));
+router.get('/login-theme', ctrl.showLoginTheme.bind(ctrl));
+router.post('/login-theme', ctrl.updateLoginTheme.bind(ctrl));
+router.get('/login-text', ctrl.showLoginText.bind(ctrl));
+router.post('/login-text', ctrl.updateLoginText.bind(ctrl));
+exports.default = router;
+//# sourceMappingURL=settings.router.js.map

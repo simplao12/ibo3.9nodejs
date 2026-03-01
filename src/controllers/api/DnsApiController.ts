@@ -1,10 +1,10 @@
 import { Request, Response } from 'express';
-import { db } from '../../config/database';
+import { dbService } from '../../services/DatabaseService';
 import { dnsEncrypt, generateRandomKey } from '../../services/EncryptionService';
 
 export class DnsApiController {
   handle(req: Request, res: Response): void {
-    const rows = db.prepare('SELECT title AS name, url FROM dns').all() as { name: string; url: string }[];
+    const rows = dbService.select<{ name: string; url: string }>('dns', 'title AS name, url');
     const jsonString = JSON.stringify(rows, null, 2);
 
     const key1 = generateRandomKey(16);

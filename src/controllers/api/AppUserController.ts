@@ -1,12 +1,12 @@
 import { Request, Response } from 'express';
-import { db } from '../../config/database';
+import { dbService } from '../../services/DatabaseService';
 import { getDecodedString, getEncodedString } from '../../services/EncryptionService';
 import path from 'path';
 import fs from 'fs';
 
 function getUserData(macAddress: string): { urls: string } {
   const mac = macAddress.toLowerCase();
-  const rows = db.prepare('SELECT * FROM ibo WHERE LOWER(mac_address) = ?').all(mac) as Array<{
+  const rows = dbService.raw('SELECT * FROM ibo WHERE LOWER(mac_address) = ?', { mac }) as Array<{
     id: number; protection: string; password: string; url: string; username: string; title: string;
   }>;
 
@@ -24,8 +24,8 @@ function getUserData(macAddress: string): { urls: string } {
 
 function getExpired(macAddress: string): string {
   const mac = macAddress.toLowerCase();
-  const row = db.prepare('SELECT expire_date FROM trial WHERE LOWER(mac_address) = ?').get(mac) as { expire_date: string } | undefined;
-  return row?.expire_date || '2033-03-13';
+  const row = dbService.raw('SELECT expire_date FROM trial WHERE LOWER(mac_address) = ?', { mac }) as Array<{ expire_date: string }>;
+  return row?.[0]?.expire_date || '2033-03-13';
 }
 
 function getLang(): string {
@@ -50,14 +50,14 @@ export class AppUserController {
       const jsonData = JSON.parse(decoded) as { app_device_id: string };
 
       // Get settings from DB
-      const mes = db.prepare('SELECT * FROM welcome WHERE id = 1').get() as { message_one: string; message_two: string } | undefined;
-      const mec = db.prepare('SELECT * FROM macl WHERE id = 1').get() as { mac_length: string } | undefined;
-      const theme = db.prepare('SELECT * FROM theme WHERE id = 1').get() as { theme_no: string } | undefined;
-      const update = db.prepare('SELECT * FROM appupdate WHERE id = 1').get() as { nversion: string; nurl: string } | undefined;
-      const licens = db.prepare('SELECT * FROM licens WHERE id = 1').get() as { lkey: string } | undefined;
-      const demo = db.prepare('SELECT * FROM demopls WHERE id = 1').get() as { mplname: string; mdns: string; muser: string; mpass: string } | undefined;
-      const lthemes = db.prepare('SELECT * FROM logintheme WHERE id = 1').get() as { themelog: string } | undefined;
-      const logintxt = db.prepare('SELECT * FROM logintext WHERE id = 1').get() as { logintitial: string; loginsubtitial: string } | undefined;
+      const mes = dbService.getOne<{ message_one: string; message_two: string }>('welcome', 'id = 1');
+      const mec = dbService.getOne<{ mac_length: string }>('macl', 'id = 1');
+      const theme = dbService.getOne<{ theme_no: string }>('theme', 'id = 1');
+      const update = dbService.getOne<{ nversion: string; nurl: string }>('appupdate', 'id = 1');
+      const licens = dbService.getOne<{ lkey: string }>('licens', 'id = 1');
+      const demo = dbService.getOne<{ mplname: string; mdns: string; muser: string; mpass: string }>('demopls', 'id = 1');
+      const lthemes = dbService.getOne<{ themelog: string }>('logintheme', 'id = 1');
+      const logintxt = dbService.getOne<{ logintitial: string; loginsubtitial: string }>('logintext', 'id = 1');
 
       // Build values (port of PHP logic)
       const macLen = parseInt(mec?.mac_length || '12', 10) || 12;
