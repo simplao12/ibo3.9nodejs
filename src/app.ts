@@ -31,6 +31,10 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
 // Session
+// In production we may be behind a proxy (Heroku, etc), tell Express to trust it so
+// that req.secure is correctly populated and cookies marked `secure` will work.
+app.set('trust proxy', 1);
+
 app.use(
   session({
     secret: env.SESSION_SECRET,
@@ -39,7 +43,10 @@ app.use(
     name: 'ibo.sid',
     cookie: {
       httpOnly: true,
-      secure: env.isProd,
+      // only set secure flag when clearly running over HTTPS; the deploy host may
+      // have NODE_ENV=production but not actually serve HTTPS, so allow override
+      // via an env var or by checking req.secure via trust proxy above.
+      secure: env.isProd && process.env.FORCE_SECURE === 'true',
       sameSite: 'lax',
       maxAge: 15 * 60 * 1000, // 15 minutes
     },
